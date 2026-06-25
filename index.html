@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pablo's 7th Birthday 🎉 Surprise Party!</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Patrick+Hand:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#FFD700;--green:#2E7D32;--purple:#4A1D96;--red:#DC2626;--dark:#140800;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);font-family:'Patrick Hand',cursive;color:#fff;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(20,8,0,.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,215,0,.15);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 16px;
+}
+nav a{
+  color:rgba(255,255,255,.65);font-family:'Bangers',cursive;
+  font-size:.95rem;letter-spacing:1.5px;text-decoration:none;
+  padding:6px 12px;border-radius:8px;transition:all .18s;
+}
+nav a:hover{color:var(--gold);background:rgba(255,215,0,.1);}
+
+/* ── CONFETTI ── */
+.confetti{position:fixed;top:0;left:0;right:0;height:100vh;pointer-events:none;z-index:90;overflow:hidden;}
+.c{position:absolute;top:-12px;border-radius:2px;animation:fall linear infinite;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);}}
+
+/* ── HERO ── */
+#hero{
+  min-height:100svh;padding-top:56px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 45% 50%,#3d1500 0%,#1a0800 50%,#0d0400 100%);
+}
+.hero-bg::before{
+  content:'';position:absolute;inset:-50%;
+  background:conic-gradient(from 0deg,transparent 70%,rgba(255,165,0,.05) 80%,transparent 90%);
+  animation:spin 24s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.hero-inner{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:40px;
+  max-width:960px;width:100%;padding:32px 20px;
+}
+.hero-img-wrap{flex:0 0 auto;max-width:400px;width:100%;}
+.hero-img{
+  width:100%;display:block;
+  border-radius:18px;
+  box-shadow:0 20px 80px rgba(0,0,0,.7),0 0 60px rgba(255,165,0,.18);
+  animation:imgFloat 5s ease-in-out infinite;
+}
+@keyframes imgFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.hero-text{flex:1;min-width:0;}
+.surprise-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--red);color:#fff;
+  font-family:'Bangers',cursive;font-size:1rem;letter-spacing:2px;
+  padding:7px 16px;border-radius:100px;
+  border:2px solid var(--gold);
+  box-shadow:0 0 18px rgba(220,38,38,.5);
+  margin-bottom:16px;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.hero-text h1{
+  font-family:'Bangers',cursive;
+  font-size:clamp(2.8rem,6vw,4.5rem);
+  line-height:1;letter-spacing:4px;
+  color:#fff;
+  text-shadow:3px 3px 0 rgba(0,0,0,.5);
+  margin-bottom:6px;
+}
+.hero-text h1 span{color:var(--gold);}
+.hero-text .sub{
+  font-family:'Bangers',cursive;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  color:rgba(255,255,255,.6);letter-spacing:2px;margin-bottom:24px;
+}
+/* street sign */
+.street-sign{
+  display:inline-flex;flex-direction:column;align-items:center;
+  margin-bottom:24px;
+}
+.sign-top{background:#007A33;color:#fff;font-family:'Bangers',cursive;font-size:.75rem;letter-spacing:3px;padding:4px 14px;border-radius:3px 3px 0 0;border:2px solid #fff;border-bottom:none;}
+.sign-main{background:#007A33;color:#fff;font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:4px;padding:6px 22px;border:2.5px solid #fff;border-radius:0 0 3px 3px;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+/* countdown */
+.countdown{display:flex;gap:10px;margin-bottom:28px;}
+.cd-box{background:rgba(255,215,0,.1);border:2px solid var(--gold);border-radius:13px;padding:12px 0;width:70px;text-align:center;}
+.cd-num{font-family:'Bangers',cursive;font-size:2rem;color:var(--gold);display:block;line-height:1;}
+.cd-unit{font-size:.6rem;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
+.hero-cta{
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),#f59e0b);
+  color:#140800;font-family:'Bangers',cursive;font-size:1.15rem;letter-spacing:2px;
+  padding:14px 26px;border-radius:12px;border:none;cursor:pointer;
+  text-decoration:none;display:inline-block;
+  box-shadow:0 4px 20px rgba(255,215,0,.35);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,215,0,.5);}
+.btn-secondary{
+  background:rgba(255,255,255,.08);
+  color:#fff;font-family:'Bangers',cursive;font-size:1.15rem;letter-spacing:2px;
+  padding:14px 26px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);
+  text-decoration:none;display:inline-block;
+  transition:all .15s;
+}
+.btn-secondary:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);}
+
+/* ── SECTION SHELL ── */
+section{padding:64px 20px;}
+.section-inner{max-width:960px;margin:0 auto;}
+.section-title{
+  font-family:'Bangers',cursive;
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  letter-spacing:3px;color:var(--gold);
+  text-align:center;margin-bottom:8px;
+}
+.section-sub{text-align:center;color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:36px;}
+.divider{width:60px;height:3px;background:var(--gold);border-radius:2px;margin:12px auto 32px;}
+
+/* ── VIDEO ── */
+#video{background:linear-gradient(180deg,#0d0400,#1a0800);}
+.video-wrap{
+  max-width:600px;margin:0 auto;
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 50px rgba(255,165,0,.15);
+  border:2px solid rgba(255,215,0,.2);
+}
+.video-wrap video{width:100%;display:block;}
+
+/* ── DETAILS ── */
+#details{background:linear-gradient(180deg,#1a0800,#0d0400);}
+.details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;}
+.detail-card{
+  background:rgba(255,255,255,.04);
+  border:1.5px solid rgba(255,215,0,.2);
+  border-radius:16px;padding:22px 18px;
+  transition:transform .2s,border-color .2s;
+}
+.detail-card:hover{transform:translateY(-3px);border-color:rgba(255,215,0,.45);}
+.detail-card .icon{font-size:2rem;margin-bottom:10px;}
+.detail-card h3{font-family:'Bangers',cursive;font-size:1.15rem;letter-spacing:2px;color:var(--gold);margin-bottom:4px;}
+.detail-card p{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.5;}
+.detail-card p strong{color:#fff;}
+
+/* ── RSVP ── */
+#rsvp{background:linear-gradient(180deg,#0d0400,#1a0600);}
+.rsvp-wrap{max-width:520px;margin:0 auto;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,215,0,.2);border-radius:20px;padding:32px 24px;}
+.field{margin-bottom:16px;}
+.field label{display:block;color:rgba(255,255,255,.75);font-size:.88rem;margin-bottom:5px;}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,215,0,.25);border-radius:10px;padding:11px 13px;color:#fff;font-family:'Patrick Hand',cursive;font-size:.97rem;outline:none;transition:border-color .2s;}
+.field input:focus,.field textarea:focus{border-color:var(--gold);}
+.field textarea{height:86px;resize:vertical;}
+.radios{display:flex;gap:8px;flex-wrap:wrap;}
+.r-btn{flex:1;min-width:88px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,215,0,.2);border-radius:10px;padding:11px 6px;text-align:center;cursor:pointer;color:rgba(255,255,255,.65);font-family:'Patrick Hand',cursive;font-size:.92rem;transition:all .18s;user-select:none;}
+.r-btn input{display:none;}
+.r-btn:has(input:checked){background:rgba(255,215,0,.18);border-color:var(--gold);color:var(--gold);font-weight:700;}
+.submit-btn{width:100%;background:linear-gradient(135deg,#FFD700,#f59e0b);color:#140800;font-family:'Bangers',cursive;font-size:1.3rem;letter-spacing:3px;border:none;border-radius:13px;padding:17px;cursor:pointer;box-shadow:0 4px 22px rgba(255,215,0,.35);transition:transform .12s,box-shadow .12s;margin-top:8px;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,215,0,.55);}
+.submit-btn:active{transform:translateY(0);}
+.success-msg{display:none;text-align:center;padding:28px 0;}
+.success-msg h3{font-family:'Bangers',cursive;font-size:2rem;color:var(--gold);margin-bottom:6px;}
+.success-msg p{color:rgba(255,255,255,.65);}
+
+/* ── QR ── */
+#qr{background:linear-gradient(180deg,#1a0600,#0d0400);}
+.qr-card{max-width:300px;margin:0 auto;text-align:center;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,215,0,.25);border-radius:18px;padding:28px 20px;}
+.qr-card img{width:180px;height:180px;background:#fff;border-radius:10px;padding:8px;display:block;margin:0 auto 16px;}
+.qr-card p{color:rgba(255,255,255,.5);font-size:.85rem;}
+.qr-card strong{color:var(--gold);display:block;font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:2px;margin-bottom:6px;}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:28px 20px;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.3);font-size:.82rem;}
+footer span{color:rgba(255,215,0,.5);}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .hero-inner{flex-direction:column;align-items:center;text-align:center;gap:24px;}
+  .hero-text h1{font-size:2.6rem;}
+  .countdown{justify-content:center;}
+  .hero-cta{justify-content:center;}
+  .hero-img-wrap{max-width:320px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero">🏠 Home</a>
+  <a href="#video">🎬 Video</a>
+  <a href="#details">📋 Details</a>
+  <a href="#rsvp">✉️ RSVP</a>
+  <a href="#qr">📲 QR</a>
+</nav>
+
+<div class="confetti" id="confetti"></div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+
+    <div class="hero-img-wrap">
+      <img src="invitation.png" alt="Pablo's 7th Birthday Invitation" class="hero-img"/>
+    </div>
+
+    <div class="hero-text">
+      <div class="surprise-pill">🤫 SURPRISE PARTY!</div>
+
+      <div class="street-sign">
+        <div class="sign-top">ST</div>
+        <div class="sign-main">PABLO</div>
+      </div>
+
+      <h1>PABLO TURNS <span>7!</span></h1>
+      <p class="sub">Saturday · July 4, 2026</p>
+
+      <div class="countdown">
+        <div class="cd-box"><span class="cd-num" id="cd-d">--</span><span class="cd-unit">Days</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-h">--</span><span class="cd-unit">Hours</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-m">--</span><span class="cd-unit">Mins</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-s">--</span><span class="cd-unit">Secs</span></div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#rsvp" class="btn-primary">✅ RSVP Now</a>
+        <a href="invitation.html" class="btn-secondary">🎉 View Invite</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── VIDEO ── -->
+<section id="video">
+  <div class="section-inner">
+    <h2 class="section-title reveal">🎬 WATCH THE INVITE!</h2>
+    <div class="divider"></div>
+    <div class="video-wrap reveal">
+      <video autoplay muted loop playsinline controls>
+        <source src="pablo-party.mp4" type="video/mp4"/>
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- ── DETAILS ── -->
+<section id="details">
+  <div class="section-inner">
+    <h2 class="section-title reveal">🎈 PARTY DETAILS</h2>
+    <div class="divider"></div>
+    <div class="details-grid">
+      <div class="detail-card reveal">
+        <div class="icon">📅</div>
+        <h3>Date</h3>
+        <p><strong>Saturday, July 4, 2026</strong></p>
+      </div>
+      <div class="detail-card reveal">
+        <div class="icon">🕐</div>
+        <h3>Time</h3>
+        <p><strong>1:30 PM onwards</strong><br/>Please arrive before Pablo!</p>
+      </div>
+      <div class="detail-card reveal">
+        <div class="icon">📍</div>
+        <h3>Venue</h3>
+        <p><strong>Max's Restaurant</strong><br/>Revilla Business Park, Bacoor, Cavite</p>
+      </div>
+      <div class="detail-card reveal" style="border-color:rgba(253,164,175,.3);">
+        <div class="icon">🤫</div>
+        <h3 style="color:#fda4af;">Shhhh!</h3>
+        <p>This is a <strong>SURPRISE</strong> — do not tell Pablo!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RSVP ── -->
+<section id="rsvp">
+  <div class="section-inner">
+    <h2 class="section-title reveal">✉️ RSVP</h2>
+    <p class="section-sub reveal">Let the family know if you're coming!</p>
+    <div class="rsvp-wrap reveal">
+      <form id="rsvp-form">
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="r-name" placeholder="Enter your name" required/>
+        </div>
+        <div class="field">
+          <label>Will you be there?</label>
+          <div class="radios">
+            <label class="r-btn"><input type="radio" name="att" value="yes" required/> ✅ Yes!</label>
+            <label class="r-btn"><input type="radio" name="att" value="no"/> ❌ Can't come</label>
+            <label class="r-btn"><input type="radio" name="att" value="maybe"/> 🤔 Maybe</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Message <span style="opacity:.4">(optional)</span></label>
+          <textarea id="r-msg" placeholder="Write something for the birthday family…"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">🎉 SEND MY RSVP!</button>
+      </form>
+      <div class="success-msg" id="rsvp-ok">
+        <h3>🎊 Thanks!</h3>
+        <p>We've got your RSVP.<br/>See you at the party!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QR ── -->
+<section id="qr">
+  <div class="section-inner">
+    <h2 class="section-title reveal">📲 SHARE THE INVITE</h2>
+    <div class="divider"></div>
+    <div class="qr-card reveal">
+      <strong>Scan to open this page</strong>
+      <img src="qr.svg" alt="QR Code"/>
+      <p>Share this QR with friends &amp; family to invite them to Pablo's surprise party!</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with ❤️ for <span>Pablo's 7th Birthday</span> · July 4, 2026
+</footer>
+
+<script>
+// Confetti
+const COLS=['#FFD700','#E53935','#2E7D32','#1565C0','#9C27B0','#FF6D00','#fff'];
+const wrap=document.getElementById('confetti');
+for(let i=0;i<60;i++){
+  const el=document.createElement('div');
+  el.className='c';
+  const s=6+Math.random()*8;
+  el.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;background:${COLS[i%COLS.length]};animation-duration:${3+Math.random()*5}s;animation-delay:${Math.random()*7}s;border-radius:${Math.random()>.5?'50%':'2px'};opacity:${.6+Math.random()*.4};`;
+  wrap.appendChild(el);
+}
+// Countdown
+const T=new Date('2026-07-04T13:30:00+08:00');
+const pad=n=>String(Math.floor(n)).padStart(2,'0');
+function tick(){
+  const d=T-Date.now();
+  if(d<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return;}
+  document.getElementById('cd-d').textContent=pad(d/864e5);
+  document.getElementById('cd-h').textContent=pad((d%864e5)/36e5);
+  document.getElementById('cd-m').textContent=pad((d%36e5)/6e4);
+  document.getElementById('cd-s').textContent=pad((d%6e4)/1e3);
+}
+tick();setInterval(tick,1000);
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// RSVP
+document.getElementById('rsvp-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=document.getElementById('r-name').value.trim();
+  const att=document.querySelector('input[name=att]:checked')?.value||'';
+  const msg=document.getElementById('r-msg').value.trim();
+  if(!name||!att)return;
+  try{await fetch('https://script.google.com/macros/s/AKfycbxUXO0OfZEkAd54vbGdNkKmZ_r3WfkG6r9BTiSaj6S-NBcg9P1CwTYEIB4bINCyA9gG/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,attendance:att,message:msg})});}catch(_){}
+  document.getElementById('rsvp-form').style.display='none';
+  document.getElementById('rsvp-ok').style.display='block';
+});
+</script>
+</body>
+</html>

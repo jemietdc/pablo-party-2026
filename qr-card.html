@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Pablo's Party QR</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Patrick+Hand&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;font-family:'Patrick Hand',cursive;
+  print-color-adjust:exact;-webkit-print-color-adjust:exact;
+}
+.card{
+  width:320px;
+  background:linear-gradient(135deg,#6B21A8 0%,#1A0B3D 100%);
+  border-radius:24px;
+  padding:28px 24px;
+  text-align:center;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);
+  color:#fff;
+}
+.title{
+  font-family:'Bangers',cursive;
+  font-size:2rem;
+  letter-spacing:2px;
+  color:#FFD700;
+  text-shadow:2px 2px 0 #000;
+  line-height:1;
+  margin-bottom:4px;
+}
+.subtitle{font-size:0.9rem;opacity:.8;margin-bottom:20px;}
+.qr-wrap{
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:20px;
+  width:228px;
+  height:228px;
+}
+#qrcode canvas, #qrcode img{display:block;}
+.url{
+  font-size:0.75rem;
+  opacity:.6;
+  word-break:break-all;
+  margin-bottom:18px;
+}
+.details{
+  background:rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:0.95rem;
+  line-height:1.7;
+}
+.details strong{color:#FFD700;}
+.emoji{font-size:1.3rem;}
+@media print{
+  body{background:#fff;}
+  .card{box-shadow:none;border:2px solid #6B21A8;}
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="title">🎈 PABLO'S 7th!</div>
+  <div class="subtitle">Scan for the surprise party invite + video!</div>
+  <div class="qr-wrap">
+    <div id="qrcode"></div>
+  </div>
+  <div class="url" id="url-display"></div>
+  <div class="details">
+    <div class="emoji">📅</div>
+    <strong>July 4, 2026</strong><br>
+    1:30 PM onwards<br><br>
+    <div class="emoji">📍</div>
+    Max's Restaurant<br>
+    <strong>Revilla Business Park, Bacoor</strong><br><br>
+    <span style="color:#f9a8d4;font-size:0.9rem;">🤫 It's a SURPRISE — don't tell Pablo!</span>
+  </div>
+</div>
+<script>
+// ← UPDATE THIS URL AFTER DEPLOYMENT
+const PARTY_URL = "https://vocal-tanuki-8acffa.netlify.app";
+
+document.getElementById("url-display").textContent = PARTY_URL.replace("https://", "");
+
+new QRCode(document.getElementById("qrcode"), {
+  text: PARTY_URL,
+  width: 200,
+  height: 200,
+  colorDark: "#000000",
+  colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
