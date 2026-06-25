@@ -15,12 +15,13 @@ body{
 }
 .card{
   width:320px;
-  background:linear-gradient(135deg,#6B21A8 0%,#1A0B3D 100%);
+  background:linear-gradient(160deg,#6B21A8 0%,#1A0B3D 100%);
   border-radius:24px;
-  padding:28px 24px;
+  padding:28px 24px 28px 24px;
   text-align:center;
   box-shadow:0 8px 40px rgba(0,0,0,.25);
   color:#fff;
+  overflow:hidden;
 }
 .title{
   font-family:'Bangers',cursive;
@@ -31,34 +32,36 @@ body{
   line-height:1;
   margin-bottom:4px;
 }
-.subtitle{font-size:0.9rem;opacity:.8;margin-bottom:20px;}
-.qr-wrap{
+.subtitle{font-size:0.9rem;opacity:.8;margin-bottom:0;}
+
+/* characters peek above the QR */
+.peek-wrap{
+  position:relative;
+  margin-top:14px;
   background:#fff;
   border-radius:14px;
-  padding:14px;
-  display:inline-flex;
+  overflow:hidden;
+}
+.peek-img{
+  width:100%;
+  display:block;
+  margin-bottom:-4px;
+  position:relative;
+  z-index:2;
+}
+.qr-wrap{
+  position:relative;
+  z-index:1;
+  background:#fff;
+  border-radius:0 0 14px 14px;
+  padding:0 14px 18px 14px;
+  display:flex;
   align-items:center;
   justify-content:center;
-  margin-bottom:20px;
-  width:228px;
-  height:228px;
+  width:100%;
 }
 #qrcode canvas, #qrcode img{display:block;}
-.url{
-  font-size:0.75rem;
-  opacity:.6;
-  word-break:break-all;
-  margin-bottom:18px;
-}
-.details{
-  background:rgba(255,255,255,.1);
-  border-radius:12px;
-  padding:12px 16px;
-  font-size:0.95rem;
-  line-height:1.7;
-}
-.details strong{color:#FFD700;}
-.emoji{font-size:1.3rem;}
+
 @media print{
   body{background:#fff;}
   .card{box-shadow:none;border:2px solid #6B21A8;}
@@ -67,32 +70,21 @@ body{
 </head>
 <body>
 <div class="card">
-  <div class="title">🎈 PABLO'S 7th!</div>
+  <div class="title">🎈 PABLO'S 7TH!</div>
   <div class="subtitle">Scan for the surprise! 🤫</div>
-  <div class="qr-wrap">
-    <div id="qrcode"></div>
-  </div>
-  <div class="url" id="url-display"></div>
-  <div class="details">
-    <div class="emoji">📅</div>
-    <strong>July 4, 2026</strong><br>
-    1:30 PM onwards<br><br>
-    <div class="emoji">📍</div>
-    Max's Restaurant<br>
-    <strong>Revilla Business Park, Bacoor</strong><br><br>
-    <span style="color:#f9a8d4;font-size:0.9rem;">🤫 It's a SURPRISE — don't tell Pablo!</span>
+  <div class="peek-wrap">
+    <img src="peek-characters.png" alt="" class="peek-img"/>
+    <div class="qr-wrap">
+      <div id="qrcode"></div>
+    </div>
   </div>
 </div>
 <script>
-// ← UPDATE THIS URL AFTER DEPLOYMENT
 const PARTY_URL = "https://jemietdc.github.io/pablo-party-2026/";
-
-document.getElementById("url-display").textContent = PARTY_URL.replace("https://", "");
-
 new QRCode(document.getElementById("qrcode"), {
   text: PARTY_URL,
-  width: 200,
-  height: 200,
+  width: 240,
+  height: 240,
   colorDark: "#000000",
   colorLight: "#ffffff",
   correctLevel: QRCode.CorrectLevel.H
