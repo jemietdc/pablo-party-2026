@@ -214,7 +214,7 @@ document.getElementById('rsvp-form').addEventListener('submit',async e=>{
   const att=document.querySelector('input[name=att]:checked')?.value||'';
   const msg=document.getElementById('r-msg').value.trim();
   if(!name||!att)return;
-  try{await fetch('https://script.google.com/macros/s/AKfycbxUXO0OfZEkAd54vbGdNkKmZ_r3WfkG6r9BTiSaj6S-NBcg9P1CwTYEIB4bINCyA9gG/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,attendance:att,message:msg})});}catch(_){}
+  try{await fetch('https://script.google.com/macros/s/AKfycbwItG-yQBpKj2NcGnIElltYfsCeY2tXadScEEKWkZ0UzRclnLaO56-IKEBvGdepqnVf/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,attendance:att,message:msg})});}catch(_){}
   document.getElementById('rsvp-form').style.display='none';
   document.getElementById('rsvp-ok').style.display='block';
 });
