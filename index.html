@@ -139,6 +139,23 @@ section{padding:64px 20px;}
 .success-msg{display:none;text-align:center;padding:28px 0;}
 .success-msg h3{font-family:'Bangers',cursive;font-size:2rem;color:var(--gold);margin-bottom:6px;}
 .success-msg p{color:rgba(255,255,255,.65);}
+/* headcount + dynamic guest rows */
+.headcount{display:flex;gap:12px;}
+.headcount .field{flex:1;margin-bottom:0;}
+.headcount input{text-align:center;}
+.total-line{text-align:center;color:var(--gold);font-size:.95rem;margin:10px 0 16px;}
+.total-line strong{font-family:'Bangers',cursive;font-size:1.25rem;letter-spacing:1px;}
+.guest-group{margin-bottom:14px;}
+.guest-head{font-family:'Bangers',cursive;letter-spacing:1.5px;color:var(--gold);font-size:1rem;margin:8px 0 8px;}
+#guest-rows .field{margin-bottom:8px;}
+#guest-rows input{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,215,0,.25);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Patrick Hand',cursive;font-size:.95rem;outline:none;transition:border-color .2s;}
+#guest-rows input:focus{border-color:var(--gold);}
+.kid-row{display:flex;gap:8px;margin-bottom:8px;}
+.kid-row .g-kid-name{flex:1.6;}
+.kid-row .g-kid-nick{flex:1;}
+.ps-note{color:rgba(255,255,255,.65)!important;font-size:.85rem!important;text-align:left!important;background:rgba(255,215,0,.07);border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;margin:4px 0 16px!important;line-height:1.45;}
+.ps-note strong{color:var(--gold);}
+.opt{opacity:.45;font-weight:400;}
 
 /* ── QR (END) ── */
 #qr{background:linear-gradient(180deg,#0d0400,#1a0600);}
@@ -253,7 +270,7 @@ footer span{color:rgba(255,215,0,.5);}
     <div class="rsvp-wrap reveal">
       <form id="rsvp-form">
         <div class="field">
-          <label>Your Name</label>
+          <label>Your Name <span class="opt">(who's RSVPing)</span></label>
           <input type="text" id="r-name" placeholder="Enter your name" required/>
         </div>
         <div class="field">
@@ -264,10 +281,23 @@ footer span{color:rgba(255,215,0,.5);}
             <label class="r-btn"><input type="radio" name="att" value="maybe"/> 🤔 Maybe</label>
           </div>
         </div>
-        <div class="field">
-          <label>Message <span style="opacity:.4">(optional)</span></label>
-          <textarea id="r-msg" placeholder="Write something for the birthday family…"></textarea>
+        <div class="headcount">
+          <div class="field">
+            <label>👤 Adults</label>
+            <input type="number" id="r-adults" min="0" max="20" value="0" inputmode="numeric"/>
+          </div>
+          <div class="field">
+            <label>🧒 Kids</label>
+            <input type="number" id="r-kids" min="0" max="20" value="0" inputmode="numeric"/>
+          </div>
         </div>
+        <div class="total-line" id="r-total-line" style="display:none;">Total attendees: <strong id="r-total">0</strong></div>
+        <div id="guest-rows"></div>
+        <div class="field">
+          <label>🎂 Birthday greeting for Pablo &amp; the family <span class="opt">(optional)</span></label>
+          <textarea id="r-msg" placeholder="Write a birthday greeting for Pablo and the family…"></textarea>
+        </div>
+        <p class="ps-note"><strong>P.S.</strong> Please tell us the nicknames of your kids for personalized giveaways. See you there! 🎁</p>
         <button type="submit" class="submit-btn">🎉 SEND MY RSVP!</button>
       </form>
       <div class="success-msg" id="rsvp-ok">
@@ -328,14 +358,52 @@ tick();setInterval(tick,1000);
 // Scroll reveal
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-// RSVP
+// RSVP — dynamic guest rows by headcount
+const adultsEl=document.getElementById('r-adults');
+const kidsEl=document.getElementById('r-kids');
+const rowsEl=document.getElementById('guest-rows');
+const totalEl=document.getElementById('r-total');
+const totalLine=document.getElementById('r-total-line');
+const clampN=v=>{v=parseInt(v,10);if(isNaN(v)||v<0)v=0;if(v>20)v=20;return v;};
+const esc=s=>(s||'').replace(/"/g,'&quot;');
+function snapshot(){
+  return {
+    adults:[...rowsEl.querySelectorAll('.g-adult')].map(el=>el.value),
+    kidNames:[...rowsEl.querySelectorAll('.g-kid-name')].map(el=>el.value),
+    kidNicks:[...rowsEl.querySelectorAll('.g-kid-nick')].map(el=>el.value)
+  };
+}
+function renderRows(){
+  const snap=snapshot();
+  const na=clampN(adultsEl.value),nk=clampN(kidsEl.value),total=na+nk;
+  totalEl.textContent=total;
+  totalLine.style.display=total>0?'block':'none';
+  let html='';
+  if(na>0){
+    html+='<div class="guest-group"><div class="guest-head">👤 Adults</div>';
+    for(let i=0;i<na;i++)html+=`<div class="field"><input type="text" class="g-adult" value="${esc(snap.adults[i])}" placeholder="Adult ${i+1} — full name"/></div>`;
+    html+='</div>';
+  }
+  if(nk>0){
+    html+='<div class="guest-group"><div class="guest-head">🧒 Kids <span class="opt">(name + nickname)</span></div>';
+    for(let i=0;i<nk;i++)html+=`<div class="kid-row"><input type="text" class="g-kid-name" value="${esc(snap.kidNames[i])}" placeholder="Kid ${i+1} — full name"/><input type="text" class="g-kid-nick" value="${esc(snap.kidNicks[i])}" placeholder="Nickname 🎁"/></div>`;
+    html+='</div>';
+  }
+  rowsEl.innerHTML=html;
+}
+adultsEl.addEventListener('input',renderRows);
+kidsEl.addEventListener('input',renderRows);
 document.getElementById('rsvp-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const name=document.getElementById('r-name').value.trim();
   const att=document.querySelector('input[name=att]:checked')?.value||'';
   const msg=document.getElementById('r-msg').value.trim();
   if(!name||!att)return;
-  try{await fetch('https://script.google.com/macros/s/AKfycbwItG-yQBpKj2NcGnIElltYfsCeY2tXadScEEKWkZ0UzRclnLaO56-IKEBvGdepqnVf/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,attendance:att,message:msg})});}catch(_){}
+  const adults=clampN(adultsEl.value),kids=clampN(kidsEl.value),total=adults+kids;
+  const adultNames=[...rowsEl.querySelectorAll('.g-adult')].map(el=>el.value.trim()).filter(Boolean);
+  const kidNames=[...rowsEl.querySelectorAll('.kid-row')].map(r=>({name:r.querySelector('.g-kid-name').value.trim(),nickname:r.querySelector('.g-kid-nick').value.trim()})).filter(k=>k.name||k.nickname);
+  const payload={name,attendance:att,adults,kids,total,adultNames,kidNames,message:msg};
+  try{await fetch('https://script.google.com/macros/s/AKfycbwItG-yQBpKj2NcGnIElltYfsCeY2tXadScEEKWkZ0UzRclnLaO56-IKEBvGdepqnVf/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(_){}
   document.getElementById('rsvp-form').style.display='none';
   document.getElementById('rsvp-ok').style.display='block';
 });
