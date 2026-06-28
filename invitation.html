@@ -273,12 +273,17 @@ function renderRows(){
 }
 adultsEl.addEventListener('input',renderRows);
 kidsEl.addEventListener('input',renderRows);
+let submitting=false;
 document.getElementById('rsvp-form').addEventListener('submit',async e=>{
   e.preventDefault();
+  if(submitting)return;                 // ignore repeat taps while a submit is in flight
   const name=document.getElementById('r-name').value.trim();
   const att=document.querySelector('input[name=att]:checked')?.value||'';
   const msg=document.getElementById('r-msg').value.trim();
   if(!name||!att)return;
+  submitting=true;                      // lock: prevents duplicate rows from double/triple taps
+  const _btn=e.target.querySelector('.submit-btn');
+  if(_btn){_btn.disabled=true;_btn.style.opacity='.6';_btn.style.cursor='default';_btn.textContent='Sending…';}
   const adults=clampN(adultsEl.value),kids=clampN(kidsEl.value),total=adults+kids;
   const adultNames=[...rowsEl.querySelectorAll('.g-adult')].map(el=>el.value.trim()).filter(Boolean);
   const kidNames=[...rowsEl.querySelectorAll('.kid-row')].map(r=>({name:r.querySelector('.g-kid-name').value.trim(),nickname:r.querySelector('.g-kid-nick').value.trim()})).filter(k=>k.name||k.nickname);
